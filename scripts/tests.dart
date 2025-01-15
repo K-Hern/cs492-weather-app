@@ -28,7 +28,6 @@ void processForecasts(List<dynamic> forecasts){
   // processForecast function below
     for (var index = 0; index < forecasts.length; index++) {
       var forecast = forecasts[index];
-      print("This is the single forcast:\n${forecast}");
       processForecast(forecast);
     }
 }
