@@ -11,9 +11,6 @@ void main() async {
   Map<String, dynamic> forecastJsonData = await getJsonFromUrl(forecastUrl);
   Map<String, dynamic> forecastHourlyJsonData = await getJsonFromUrl(forecastHourlyUrl);
 
-  print("complete");
-  print(forecastJsonData);
-
   processForecasts(forecastJsonData["properties"]["periods"]);
   processForecasts(forecastHourlyJsonData["properties"]["periods"]);
 
@@ -31,6 +28,7 @@ void processForecasts(List<dynamic> forecasts){
   // processForecast function below
     for (var index = 0; index < forecasts.length; index++) {
       var forecast = forecasts[index];
+      print("This is the single forcast:\n${forecast}");
       processForecast(forecast);
     }
 }
@@ -41,12 +39,11 @@ void processForecast(Map<String, dynamic> forecast){
   // for now, don't return anything, just assign values for each
   // i.e. String shortForecast = "";
 
-  String number = forecast["number"];
+  int number = forecast["number"];
   String name = forecast["name"];
   String startTime = forecast["startTime"];
   String endTime = forecast["endTime"];
-  String isDayTime = forecast["isDayTime"];
-  String temperature = forecast["temperature"];
+  int temperature = forecast["temperature"];
   String temperatureUnit = forecast["temperatureUnit"];
   String temperatureTrend = forecast["temperatureTrend"];
   String windSpeed = forecast["windSpeed"];
@@ -54,8 +51,4 @@ void processForecast(Map<String, dynamic> forecast){
   String icon = forecast["icon"];
   String shortForecast = forecast["shortForecast"];
   String detailedForecast = forecast["detailedForecast"];
-
-  print(number);
-  print(name);
-  print(startTime);
 }
