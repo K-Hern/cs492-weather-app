@@ -14,8 +14,17 @@ void testLocation() async {
   // Debug with a breakpoint after the return (you can use a placeholder like print("test") for your breakpoint)
   // Check to ensure each location returns as expected through debugging. 
 
-  location.getLocationFromAddress("oijeqofwkjfla", "asdfsd", "98839829382");
+  List<Map<String, String>> examples = [
+    {'city': 'Portland', 'state': 'OR', 'zip': '97201'},
+    {'city': 'Seattle', 'state': 'WA', 'zip': '98101'},
+    {'city': 'Los Angeles', 'state': 'CA', 'zip': '90001'},
+    {'city': 'Chicago', 'state': 'IL', 'zip': '60601'},
+    {'city': 'New York', 'state': 'NY', 'zip': '10001'}
+  ];
 
+  for (var locationMap in examples){
+    location.getLocationFromAddress(locationMap["city"] as String, locationMap["state"] as String, locationMap["zip"] as String);
+  }
 }
 
 
