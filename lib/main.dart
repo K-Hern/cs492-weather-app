@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:weatherapp/scripts/tests.dart' as tests;
 import 'package:weatherapp/scripts/location.dart' as location;
+import 'package:weatherapp/scripts/forecast.dart' as forecast;
 
 void main() {
   runApp(const MyApp());
@@ -59,8 +59,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  // TODO: Add a new list of forecast.Forecast variable called _forecasts
+  // TODO-DONE: Add a new list of forecast.Forecast variable called _forecasts
   location.Location? _currentLocation;
+  List<forecast.Forecast> _forecasts = [];
 
   @override
   void initState() {
@@ -75,13 +76,21 @@ class _MyHomePageState extends State<MyHomePage> {
   // TODO Create a new function called getForecasts(location.Location currentLocation)
   // This function should use a location to call getForecastFromPoints(), passing in the lat, lon
   // use setState the same way as setLocation does to set your _forecasts to the returned forecasts
+  void getForecasts(location.Location currentLocation) async {
+     var forecastsList = await forecast.getForecastFromPoints(currentLocation.latitude, currentLocation.longitude);
+
+    setState(() {
+      _forecasts = forecastsList; 
+    });
+  }
 
   void setLocation() async {
     if (_currentLocation == null){
       // location.Location? currentLocation = await location.getLocationFromAddress(city, state, zip);
       location.Location? currentLocation = await location.getLocationFromGps();
 
-      // TODO: Add a call to your getForecasts function passing in the currentLocation
+      // TODO-COMPLETE: Add a call to your getForecasts function passing in the currentLocation
+      getForecasts(currentLocation);
       
       setState(() {
         _currentLocation = currentLocation;
@@ -113,7 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: [
               locationWidget(_currentLocation),
-              // TODO: add a new call to forecastWidget that passes in _forecasts[0]
+              // TODO-COMEPLETE: add a new call to forecastWidget that passes in _forecasts[0]
+              forecastWidget(_forecasts.isNotEmpty ? _forecasts[0] : null),
             ],
           ),
         ),
@@ -124,6 +134,28 @@ class _MyHomePageState extends State<MyHomePage> {
   
   // TODO: add a new Row forecastWidget to display some basic forecast information
   // you can choose the parts that you want to display for now.
+
+  Row forecastWidget(forecast.Forecast? forecast) {
+    return Row(
+      children: [
+        Text(
+          forecast != null ? forecast.temperature.toString() : "Temp",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
+        // Text(
+        //   forecast.windDirection ?? "Null WindDirection",
+        //   style: TextStyle(fontSize: 16, color: Colors.black),
+        //   textAlign: TextAlign.center,
+        // ),
+        // Text(
+        //   forecast.windSpeed ?? "Null WindSpeed",
+        //   style: TextStyle(fontSize: 16, color: Colors.black),
+        //   textAlign: TextAlign.center,
+        // ),
+      ],
+    );
+  }
 
   Row locationWidget(location.Location? currentLocation) {
     return Row(
