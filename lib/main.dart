@@ -139,20 +139,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return Row(
       children: [
         Text(
-          forecast != null ? forecast.temperature.toString() : "Temp",
+          forecast?.temperature.toString() ?? "Temp",
           style: TextStyle(fontSize: 16, color: Colors.black),
           textAlign: TextAlign.center,
         ),
-        // Text(
-        //   forecast.windDirection ?? "Null WindDirection",
-        //   style: TextStyle(fontSize: 16, color: Colors.black),
-        //   textAlign: TextAlign.center,
-        // ),
-        // Text(
-        //   forecast.windSpeed ?? "Null WindSpeed",
-        //   style: TextStyle(fontSize: 16, color: Colors.black),
-        //   textAlign: TextAlign.center,
-        // ),
+        Text(
+          forecast?.windDirection ?? "Null WindDirection",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          forecast?.windSpeed ?? "Null WindSpeed",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }
