@@ -132,24 +132,24 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   
-  // TODO: add a new Row forecastWidget to display some basic forecast information
+  // TODO-COMPLETE: add a new Row forecastWidget to display some basic forecast information
   // you can choose the parts that you want to display for now.
 
   Row forecastWidget(forecast.Forecast? forecast) {
     return Row(
       children: [
         Text(
-          forecast?.temperature.toString() ?? "Temp",
+          "${forecast?.temperature.toString() ?? 'Temp'}  ",
           style: TextStyle(fontSize: 16, color: Colors.black),
           textAlign: TextAlign.center,
         ),
         Text(
-          forecast?.windDirection ?? "Null WindDirection",
+          "${forecast?.windDirection ?? 'Null WindDirection'}  ",
           style: TextStyle(fontSize: 16, color: Colors.black),
           textAlign: TextAlign.center,
         ),
         Text(
-          forecast?.windSpeed ?? "Null WindSpeed",
+          "${forecast?.windSpeed ?? 'Null WindSpeed'}  ",
           style: TextStyle(fontSize: 16, color: Colors.black),
           textAlign: TextAlign.center,
         ),
@@ -161,17 +161,17 @@ class _MyHomePageState extends State<MyHomePage> {
     return Row(
       children: [
         Text(
-          currentLocation != null ? currentLocation.city ?? "City" : "City",
+          "${currentLocation?.city ?? 'City'} ",
           style: TextStyle(fontSize: 16, color: Colors.black),
           textAlign: TextAlign.center,
         ),
         Text(
-          currentLocation != null ? currentLocation.state ?? "State" : "State",
+          "${currentLocation?.state ?? 'State'} ",
           style: TextStyle(fontSize: 16, color: Colors.black),
           textAlign: TextAlign.center,
         ),
         Text(
-          currentLocation != null ? currentLocation.zip ?? "Zip" : "Zip",
+          "${currentLocation?.zip ?? 'Zip'} ",
           style: TextStyle(fontSize: 16, color: Colors.black),
           textAlign: TextAlign.center,
         ),
