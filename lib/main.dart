@@ -124,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
               locationWidget(_currentLocation),
               // TODO-COMEPLETE: add a new call to forecastWidget that passes in _forecasts[0]
               forecastWidget(_forecasts.isNotEmpty ? _forecasts[0] : null),
+              // Alt streamlined method: forecastWidget(_forecasts.firstOrNull),
             ],
           ),
         ),
