@@ -99,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void setActiveDailyForecast(int i){
     setState(() {
       _activeForecast = _forecastsDaily[i];
+      _forecastsHourly = filterHourlyForecastByDay(_forecastsHourly, _forecastsDaily[i]);
     });
   }
 
@@ -155,6 +156,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 }
+
+// Returns a list of forecasts within the range of the selected day's Forecast
+List<forecast.Forecast> filterHourlyForecastByDay(List<forecast.Forecast> _forecastsHourly, forecast.Forecast activeDay) {
+  List<forecast.Forecast> resultingHourlyList =  [
+    for (var object in _forecastsHourly)
+      if (DateTime.parse(object.startTime as String).isAfter(DateTime.parse(activeDay.startTime as String)) &&
+          DateTime.parse(object.startTime as String).isBefore((DateTime.parse(activeDay.startTime as String)).add(Duration(hours: 12))))
+        object
+  ];
+
+  return resultingHourlyList;
+}
+
+
 
 // TODO: This will require some research
 // When a forecast is set from the daily forecasts (_forecasts), 
