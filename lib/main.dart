@@ -69,8 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
   // TODO-COMPLETE
   // create a new variable for _forecasts
   forecast.Forecast? _activeForecast;
-  forecast.Forecast? _activeDailyForecast;
-
   location.Location? _location;
 
   @override
@@ -96,11 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // create a new function: setActiveHourlyForecast that updates _activeForecast with _forecasts[i]
+  // create a new function: setActiveDailyForecast that updates _activeForecast with _forecasts[i]
 
   void setActiveDailyForecast(int i){
     setState(() {
-      _activeDailyForecast = _forecastsDaily[i];
+      _activeForecast = _forecastsDaily[i];
     });
   }
 
@@ -114,11 +112,9 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _location = currentLocation;
         _forecastsHourly = currentHourlyForecasts;
-        _activeForecast = _forecastsHourly[10];
-
         _forecastsDaily = currentDailyForecasts;
-        _activeDailyForecast = _forecastsDaily[_forecastsDaily.length - 1];
-        
+        // Sets the forecast at the top (with extended description)
+        _activeForecast = _forecastsHourly[0];
       });
     }
   }
@@ -149,8 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
               LocationWidget(location: _location),
               _activeForecast != null ? ForecastWidget(forecast: _activeForecast!) : Text(""),
               // TODO add a new ForecastSummariesWidget for the daily forecasts
-              _forecastsHourly.isNotEmpty ? ForecastSummariesWidget(forecasts: _forecastsHourly, setActiveForecast: setActiveHourlyForecast) : Text(""),
-              _forecastsDaily.isNotEmpty ? ForecastSummariesWidget(forecasts: _forecastsDaily, setActiveForecast: setActiveDailyForecast) : Text("Daily isnt working"),
+              _forecastsHourly.isNotEmpty ? ForecastSummariesWidget(forecasts: _forecastsHourly, setActiveForecast: setActiveHourlyForecast) : Text("Hourly Isn't Working"),
+              _forecastsDaily.isNotEmpty ? ForecastSummariesWidget(forecasts: _forecastsDaily, setActiveForecast: setActiveDailyForecast) : Text("Daily isn't working"),
             ],
           ),
         ),
