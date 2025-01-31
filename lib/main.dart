@@ -160,6 +160,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 }
 
+// TODO: This will require some research
+// When a forecast is set from the daily forecasts (_forecasts), 
+// filter the hourly forecasts to only include forecasts with the same startDate (not including time) as the activeForecast
 // Returns a list of forecasts within the range of the selected day's Forecast
 List<forecast.Forecast> filterHourlyForecastByDay(List<forecast.Forecast> _forecastsHourly, forecast.Forecast activeDay) {
   List<forecast.Forecast> resultingHourlyList =  [
@@ -171,10 +174,4 @@ List<forecast.Forecast> filterHourlyForecastByDay(List<forecast.Forecast> _forec
 
   return resultingHourlyList;
 }
-
-
-
-// TODO: This will require some research
-// When a forecast is set from the daily forecasts (_forecasts), 
-// filter the hourly forecasts to only include forecasts with the same startDate (not including time) as the activeForecast
 
