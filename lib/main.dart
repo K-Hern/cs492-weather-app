@@ -65,6 +65,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   List<forecast.Forecast> _forecastsHourly = [];
+  List<forecast.Forecast>_forecastsHourlyToDisplay = [];
   List<forecast.Forecast> _forecastsDaily = [];
   // TODO-COMPLETE
   // create a new variable for _forecasts
@@ -99,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void setActiveDailyForecast(int i){
     setState(() {
       _activeForecast = _forecastsDaily[i];
-      _forecastsHourly = filterHourlyForecastByDay(_forecastsHourly, _forecastsDaily[i]);
+      _forecastsHourlyToDisplay = filterHourlyForecastByDay(_forecastsHourly, _forecastsDaily[i]);
     });
   }
 
@@ -112,10 +113,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
       setState(() {
         _location = currentLocation;
+        _forecastsHourlyToDisplay = currentHourlyForecasts;
+        // An immutable global copy ()used to rest "" ToDisplay when another day is chosen
         _forecastsHourly = currentHourlyForecasts;
         _forecastsDaily = currentDailyForecasts;
         // Sets the forecast at the top (with extended description)
-        _activeForecast = _forecastsHourly[0];
+        _activeForecast = _forecastsHourlyToDisplay[0];
       });
     }
   }
@@ -146,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
               LocationWidget(location: _location),
               _activeForecast != null ? ForecastWidget(forecast: _activeForecast!) : Text(""),
               // TODO add a new ForecastSummariesWidget for the daily forecasts
-              _forecastsHourly.isNotEmpty ? ForecastSummariesWidget(forecasts: _forecastsHourly, setActiveForecast: setActiveHourlyForecast) : Text("Hourly Isn't Working"),
+              _forecastsHourlyToDisplay.isNotEmpty ? ForecastSummariesWidget(forecasts: _forecastsHourlyToDisplay, setActiveForecast: setActiveHourlyForecast) : Text("Hourly Isn't Working"),
               _forecastsDaily.isNotEmpty ? ForecastSummariesWidget(forecasts: _forecastsDaily, setActiveForecast: setActiveDailyForecast) : Text("Daily isn't working"),
             ],
           ),
