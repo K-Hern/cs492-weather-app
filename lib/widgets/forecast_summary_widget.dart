@@ -52,19 +52,29 @@ class ForecastSummaryWidget extends StatelessWidget {
 class WeatherIconWidget extends StatelessWidget {
   const WeatherIconWidget({
     super.key,
-    required String iconPath
-  }) : _iconPath = iconPath;
+    required String iconPath,
+    int height = 50,
+    int width = 50,
+    double opacity = 1.0
+  }) : _iconPath = iconPath, _height = height, _width = width, _opacity = opacity;
 
   final String _iconPath;
+  final int _height;
+  final int _width;
+  final double _opacity;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SvgPicture.asset(_iconPath, height: 50, width: 50),
+      child: Opacity(
+        opacity: _opacity,
+        child: SvgPicture.asset(_iconPath, height: _height.toDouble(), width: _width.toDouble()),
+      )
     );
   }
 }
+
 
 
 

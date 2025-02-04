@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weatherapp/scripts/forecast.dart' as forecast;
 import 'package:weatherapp/scripts/time.dart' as time;
 import 'package:weatherapp/scripts/math.dart' as math;
+import 'package:weatherapp/widgets/forecast_summary_widget.dart';
 
 // TODO: Add the icon to this widget as well
 // Make it look good.
@@ -19,15 +20,20 @@ class ForecastWidget extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: Stack( 
           children: [
-            ForecastNameWidget(forecast: _forecast),
-            Text(_forecast.detailedForecast ?? _forecast.shortForecast),
-            Text("Wind: ${_forecast.windSpeed} ${_forecast.windDirection}"),
-            Text("Temp: ${_forecast.temperature}°${_forecast.temperatureUnit}"),
-            Text(_forecast.dewpoint != null ? "Dewpoint: ${math.roundToDecimalPlaces(_forecast.dewpoint, 2)}" : ""),
-            Text(_forecast.humidity != null ? "Humidity: ${_forecast.humidity}" : ""),
-            Text(_forecast.precipitationProbability != null ? "Chance of Rain: ${_forecast.precipitationProbability}" : ""),
+            WeatherIconWidget(iconPath: _forecast.getIconPath(), height: 350, width: 350, opacity: 0.5),
+            Column(
+              children: [
+                ForecastNameWidget(forecast: _forecast),
+                Text(_forecast.detailedForecast ?? _forecast.shortForecast),
+                Text("Wind: ${_forecast.windSpeed} ${_forecast.windDirection}"),
+                Text("Temp: ${_forecast.temperature}°${_forecast.temperatureUnit}"),
+                Text(_forecast.dewpoint != null ? "Dewpoint: ${math.roundToDecimalPlaces(_forecast.dewpoint, 2)}" : ""),
+                Text(_forecast.humidity != null ? "Humidity: ${_forecast.humidity}" : ""),
+                Text(_forecast.precipitationProbability != null ? "Chance of Rain: ${_forecast.precipitationProbability}" : ""),
+              ],
+            ),
           ],
         ),
       ),
