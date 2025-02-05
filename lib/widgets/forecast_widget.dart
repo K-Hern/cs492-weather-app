@@ -23,16 +23,18 @@ class ForecastWidget extends StatelessWidget {
         child: Stack( 
           children: [
             WeatherIconWidget(iconPath: _forecast.getIconPath(), height: 350, width: 350, opacity: 0.5),
-            Column(
-              children: [
-                ForecastNameWidget(forecast: _forecast),
-                Text(_forecast.detailedForecast ?? _forecast.shortForecast),
-                Text("Wind: ${_forecast.windSpeed} ${_forecast.windDirection}"),
-                Text("Temp: ${_forecast.temperature}°${_forecast.temperatureUnit}"),
-                Text(_forecast.dewpoint != null ? "Dewpoint: ${math.roundToDecimalPlaces(_forecast.dewpoint, 2)}" : ""),
-                Text(_forecast.humidity != null ? "Humidity: ${_forecast.humidity}" : ""),
-                Text(_forecast.precipitationProbability != null ? "Chance of Rain: ${_forecast.precipitationProbability}" : ""),
-              ],
+            Center(
+              child: Column(
+                children: [
+                  ForecastNameWidget(forecast: _forecast),
+                  Text(_forecast.detailedForecast ?? _forecast.shortForecast),
+                  Text("Wind: ${_forecast.windSpeed} ${_forecast.windDirection}"),
+                  Text("Temp: ${_forecast.temperature}°${_forecast.temperatureUnit}"),
+                  Text(_forecast.dewpoint != null ? "Dewpoint: ${math.roundToDecimalPlaces(_forecast.dewpoint, 2)}" : ""),
+                  Text(_forecast.humidity != null ? "Humidity: ${_forecast.humidity}" : ""),
+                  Text(_forecast.precipitationProbability != null ? "Chance of Rain: ${_forecast.precipitationProbability}" : ""),
+                ],
+              ),
             ),
           ],
         ),

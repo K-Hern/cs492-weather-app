@@ -86,6 +86,8 @@ class Forecast{
       return "assets/weather_icons/cloudy.svg";
     } else if (shortForecast.toLowerCase().contains("clear")){
       return "assets/weather_icons/clear.svg";
+    } else if (shortForecast.toLowerCase().contains("frost")){
+      return "assets/weather_icons/icy.svg";
     } else {
       return "assets/weather_icons/question.svg";
     }
