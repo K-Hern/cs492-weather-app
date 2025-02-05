@@ -78,15 +78,15 @@ class Forecast{
     // with different climates so you can eliminate more question marks
     if (shortForecast.toLowerCase().contains("sunny")){
       return "assets/weather_icons/sunny.svg";
-    } else if (shortForecast.toLowerCase().contains("snow")){
+    } else if ((shortForecast.toLowerCase().contains("snow"))){
       return "assets/weather_icons/snow_showers.svg";
     } else if ((shortForecast.toLowerCase().contains("showers")) || (shortForecast.toLowerCase().contains("rain"))){
       return "assets/weather_icons/showers.svg";
     } else if (shortForecast.toLowerCase().contains("cloud")){
       return "assets/weather_icons/cloudy.svg";
     } else if (shortForecast.toLowerCase().contains("clear")){
-      return "assets/weather_icons/clear.svg";
-    } else if (shortForecast.toLowerCase().contains("frost")){
+      return "assets/weather_icons/mostly_sunny.svg";
+    } else if ((shortForecast.toLowerCase().contains("frost")) || (shortForecast.toLowerCase().contains("sleet"))){
       return "assets/weather_icons/icy.svg";
     } else {
       return "assets/weather_icons/question.svg";
