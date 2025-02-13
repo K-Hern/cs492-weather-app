@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/scripts/location.dart' as location;
+import 'package:weatherapp/scripts/file_storage.dart' as Storage;
+
 
 // TODO:
 // Refer to this documentation:
 // https://docs.flutter.dev/cookbook/persistence/reading-writing-files
-// Save the saved locations List<location.Location> as json data to a file whenever a new saved location is added
+// Save the saved locations List<location.Location> as json data to a file whenever a new saved location is added - 
 // Load the saved locations from the file on initState
 // For now you don't need to worry about deleting data or ensuring no redundant data
 // HINT: You will likely want to create a fromJson() factory and a toJson() method to the location.dart Location class
@@ -45,7 +47,8 @@ class _LocationTabWidgetState extends State<LocationTabWidget> {
   
   void _addLocation(location.Location location){
     setState(() {
-      _savedLocations.add(location);
+      _savedLocations.add(location); 
+      Storage.writeFile(location.city ?? "City Error", location.state ?? "State Error", location.zip ?? "Zip Error");
     });
   }
 
@@ -54,7 +57,7 @@ class _LocationTabWidgetState extends State<LocationTabWidget> {
     return Column(
       children: [
         LocationDisplayWidget(activeLocation: widget._location),
-        LoctionInputWidget(setLocation: _setLocationFromAddress), // pass in _addLocation
+        LocationInputWidget(setLocation: _setLocationFromAddress), // pass in _addLocation
         ElevatedButton(onPressed: ()=>{_setLocationFromGps()},child: const Text("Get From GPS")),
         SavedLocationsWidget(locations: _savedLocations, setLocation: widget._setLocation)
       ],
@@ -108,8 +111,8 @@ class LocationDisplayWidget extends StatelessWidget {
   }
 }
 
-class LoctionInputWidget extends StatefulWidget {
-  const LoctionInputWidget({
+class LocationInputWidget extends StatefulWidget {
+  const LocationInputWidget({
     super.key,
     required Function setLocation,
   }) : _setLocation = setLocation;
@@ -117,10 +120,10 @@ class LoctionInputWidget extends StatefulWidget {
   final Function _setLocation;
 
   @override
-  State<LoctionInputWidget> createState() => _LoctionInputWidgetState();
+  State<LocationInputWidget> createState() => _LocationInputWidgetState();
 }
 
-class _LoctionInputWidgetState extends State<LoctionInputWidget> {
+class _LocationInputWidgetState extends State<LocationInputWidget> {
 
   // values
   late String _city;
