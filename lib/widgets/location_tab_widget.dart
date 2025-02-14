@@ -39,7 +39,7 @@ class _LocationTabWidgetState extends State<LocationTabWidget> {
   void getLocationHistory() async {
     _savedLocationData = (await Storage.readFile())["Saved Locations"];
     _savedLocationData.forEach((dataElement) {
-      _savedLocations.add(location.Location(city: dataElement[0], state: dataElement[1], zip: dataElement[2], latitude: 0.0, longitude: 0.0));
+      _savedLocations.add(location.Location(city: dataElement["City"], state: dataElement["State"], zip: dataElement["Zip"], latitude: dataElement["Latitude"], longitude: dataElement["Longitude"]));
     });
   }
 
@@ -62,7 +62,7 @@ class _LocationTabWidgetState extends State<LocationTabWidget> {
   void _addLocation(location.Location location){
     setState(() {
       _savedLocations.add(location); 
-      Storage.writeFile(location.city ?? "City Error", location.state ?? "State Error", location.zip ?? "Zip Error");
+      Storage.writeFile(location.city ?? "City Error", location.state ?? "State Error", location.zip ?? "Zip Error", location.latitude, location.longitude);
     });
   }
 

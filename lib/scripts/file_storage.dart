@@ -10,8 +10,10 @@ Future<String> get _localPath async {
 Future<File> get _localFile async {
   final dirPath = await _localPath;
   final path = "$dirPath/WeatherSettings.json";
+  
 
   final file = File(path);
+
   if (!(await file.exists())) {
     await file.create();
     await file.writeAsString(jsonEncode({"Saved Locations": []}));
@@ -34,14 +36,22 @@ Future<Map<String, dynamic>> readFile() async {
   }
 }
 
-Future<File> writeFile(String newCity, String state, String zip) async {
+Future<File> writeFile(String city, String state, String zip, double latitude, double longitude) async {
   final file = await _localFile;
 
   // Read existing contents
   Map<String, dynamic> contents = await readFile();
 
   // Add new location
-  contents["Saved Locations"].add([newCity, state, zip]);
+  contents["Saved Locations"].add(
+    {
+      "City" : city,
+      "State" : state,
+      "Zip" : zip,
+      "Latitude" : latitude,
+      "Longitude" : longitude,
+    }
+  );
 
   // Write updated data back to the file
   return file.writeAsString(jsonEncode(contents));
