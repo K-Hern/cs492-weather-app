@@ -1,7 +1,6 @@
-import 'package:path_provider/path_provider.dart';
-import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();
@@ -9,26 +8,41 @@ Future<String> get _localPath async {
 }
 
 Future<File> get _localFile async {
-  final path = await _localPath;
-  return File('$path/WeatherSettings.json');
+  final dirPath = await _localPath;
+  final path = "$dirPath/WeatherSettings.json";
+
+  final file = File(path);
+  if (!(await file.exists())) {
+    await file.create();
+    await file.writeAsString(jsonEncode({"Saved Locations": []}));
+  }
+
+  return file;
 }
 
 Future<Map<String, dynamic>> readFile() async {
-  final file = await _localFile;
+  try {
+    final file = await _localFile;
 
-  // Read the file
-  final contents = await file.readAsString();
+    // Read the file
+    final contents = await file.readAsString();
+    return jsonDecode(contents);
 
-  return jsonDecode(contents);
+  } catch (e) {
+    print("Error reading file: $e");
+    return {"Saved Locations": []};
+  }
 }
 
 Future<File> writeFile(String newCity, String state, String zip) async {
   final file = await _localFile;
 
+  // Read existing contents
   Map<String, dynamic> contents = await readFile();
 
-  contents["Saved Locations"].append([newCity, state, zip]);
+  // Add new location
+  contents["Saved Locations"].add([newCity, state, zip]);
 
-  // Write the file
+  // Write updated data back to the file
   return file.writeAsString(jsonEncode(contents));
 }

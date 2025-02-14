@@ -26,8 +26,22 @@ class LocationTabWidget extends StatefulWidget {
 }
 
 class _LocationTabWidgetState extends State<LocationTabWidget> {
+  
+  List<location.Location> _savedLocations = [];
+  List<dynamic> _savedLocationData = [];
 
-  final List<location.Location> _savedLocations = [];
+
+  void initState() {
+    super.initState();
+    getLocationHistory();
+  }
+
+  void getLocationHistory() async {
+    _savedLocationData = (await Storage.readFile())["Saved Locations"];
+    _savedLocationData.forEach((dataElement) {
+      _savedLocations.add(location.Location(city: dataElement[0], state: dataElement[1], zip: dataElement[2], latitude: 0.0, longitude: 0.0));
+    });
+  }
 
   void _setLocationFromAddress(String city, String state, String zip) async {
     // set location to null temporarily while it finds a new location
@@ -80,7 +94,7 @@ class SavedLocationsWidget extends StatelessWidget {
     return Column(children: _locations.map((loc)=>SavedLocationWidget(loc: loc, setLocation: _setLocation)).toList(),);
   }
 }
-
+//We will Call this to create from the JSON
 class SavedLocationWidget extends StatelessWidget {
   const SavedLocationWidget({
     super.key,
