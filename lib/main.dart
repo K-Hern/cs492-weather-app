@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weatherapp/providers/settings_provider.dart';
 import 'package:weatherapp/widgets/forecast/forecast_tab_widget.dart';
 import 'package:weatherapp/widgets/location/location_tab_widget.dart';
 import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/providers/forecast_provider.dart';
+import 'package:weatherapp/providers/settings_provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -11,6 +13,7 @@ void main() {
     ChangeNotifierProvider(
         create: (context) => LocationProvider(
             Provider.of<ForecastProvider>(context, listen: false))),
+    ChangeNotifierProvider(create: (context) => SettingsProvider())
   ], child: const MyApp()));
 }
 
@@ -21,12 +24,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     return MaterialApp(
       title: title,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      darkTheme: ThemeData.dark(),
+      theme: ThemeData.light(),
+      themeMode: settingsProvider.darkMode ? ThemeMode.dark : ThemeMode.light,
       home: MyHomePage(title: title),
     );
   }
@@ -45,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
@@ -53,10 +56,42 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(widget.title),
             bottom: TabBar(tabs: [
               Tab(icon: Icon(Icons.sunny_snowing)),
-              Tab(icon: Icon(Icons.edit_location_alt))
+              Tab(icon: Icon(Icons.edit_location_alt)),
+              Tab(icon: Icon(Icons.settings))
             ])),
-        body: TabBarView(children: [ForecastTabWidget(), LocationTabWidget()]),
+        body: TabBarView(children: [ForecastTabWidget(), LocationTabWidget(), SettingsTabWidget()]),
       ),
     );
+  }
+}
+
+
+class SettingsTabWidget extends StatefulWidget {
+  const SettingsTabWidget({super.key});
+
+  @override
+  State<SettingsTabWidget> createState() => _SettingsTabWidgetState();
+}
+
+class _SettingsTabWidgetState extends State<SettingsTabWidget> {
+
+  bool _darkMode = false;
+
+  @override
+  Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
+    return  Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Enable Dark Mode: "),
+            Switch(
+                value: _darkMode,
+                onChanged: (bool value) {
+                  setState(() {
+                    settingsProvider.toggleMode();
+                  });
+                }),
+          ],
+        );
   }
 }
