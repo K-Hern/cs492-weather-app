@@ -50,8 +50,7 @@ class SettingsProvider extends ChangeNotifier {
       );
     }
 
-    colorSeed = newColor.value;
-    prefs?.setInt(('colorSeed'), colorSeed.toInt());
+    prefs?.setInt(('colorSeed'), newColor.value);
     notifyListeners();
   }
 }
