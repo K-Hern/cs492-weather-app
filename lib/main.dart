@@ -107,12 +107,11 @@ Color pickerColor = Color(0xff443a49);
 Color currentColor = Color(0xff443a49);
 
 // ValueChanged<Color> callback
-void changeColor(Color color) {
-  setState(() => pickerColor = color);
-}
 
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
+
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -127,15 +126,15 @@ void changeColor(Color color) {
             color:Colors.grey,
             child: ColorPicker(
               pickerColor: pickerColor,
-              onColorChanged: changeColor,
+              onColorChanged: (Color color) {
+                setState(() {
+                  pickerColor = color;
+                  settingsProvider.setThemeColor(color);
+                });
+              },
             )
           ),
-          ElevatedButton(
-            child: const Text('Submit Color'),
-            onPressed: () {
-              setState(() => currentColor = pickerColor);
-            },
-          ),
+          Text("The Theme Color Will Change Automatically To Match Your Current Selection"),
         ]
     ));
     // 
