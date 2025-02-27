@@ -6,8 +6,12 @@ import 'package:weatherapp/widgets/location/location_tab_widget.dart';
 import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/providers/forecast_provider.dart';
 import 'package:weatherapp/themes/themes.dart' as themes;
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+// import './pickers/hsv_picker.dart';
+// import './pickers/material_picker.dart';
+// import './pickers/block_picker.dart';
 
-// TODOS: The TODOs are located in Assignment8-1 in canvas assignments
+// TODOS: The TODOs are located in Assignment8-2 in canvas assignments
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ForecastProvider()),
@@ -85,7 +89,7 @@ class SettingsButton extends StatelessWidget {
   }
 }
 
-class SettingsDrawer extends StatelessWidget {
+class SettingsDrawer extends StatefulWidget {
   const SettingsDrawer({
     super.key,
     required this.settingsProvider,
@@ -94,13 +98,47 @@ class SettingsDrawer extends StatelessWidget {
   final SettingsProvider settingsProvider;
 
   @override
+  State<SettingsDrawer> createState() => _SettingsDrawerState();
+}
+
+class _SettingsDrawerState extends State<SettingsDrawer> {
+  // create some values
+Color pickerColor = Color(0xff443a49);
+Color currentColor = Color(0xff443a49);
+
+// ValueChanged<Color> callback
+void changeColor(Color color) {
+  setState(() => pickerColor = color);
+}
+
+  @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Switch(
-          value: settingsProvider.darkMode,
-          onChanged: (bool value) {
-            settingsProvider.toggleMode();
-          }),
-    );
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Switch(
+            value: widget.settingsProvider.darkMode,
+            onChanged: (bool value) {
+              widget.settingsProvider.toggleMode();
+            }),
+          Text("Theme Seed Color"),
+          Container(
+            color:Colors.grey,
+            child: ColorPicker(
+              pickerColor: pickerColor,
+              onColorChanged: changeColor,
+            )
+          ),
+          ElevatedButton(
+            child: const Text('Submit Color'),
+            onPressed: () {
+              setState(() => currentColor = pickerColor);
+            },
+          ),
+        ]
+    ));
+    // 
+    //   ),
   }
 }
