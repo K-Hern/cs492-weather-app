@@ -4,19 +4,11 @@ import 'package:weatherapp/themes/themes.dart' as theme;
 
 class SettingsProvider extends ChangeNotifier {
   bool _darkMode = false;
+  int colorSeed = 0xffffff;
   SharedPreferences? prefs;
 
   bool get darkMode => _darkMode;
-
-  void toggleMode() {
-    _darkMode = !_darkMode;
-    if (prefs != null) {
-      prefs!.setBool('darkMode', _darkMode);
-    }
-
-    notifyListeners();
-  }
-
+  
   SettingsProvider() {
     initPreferences();
   }
@@ -25,7 +17,19 @@ class SettingsProvider extends ChangeNotifier {
     prefs = await SharedPreferences.getInstance();
     if (prefs != null) {
       _darkMode = prefs!.getBool('darkMode') ?? false;
+      colorSeed = prefs!.getInt('colorSeed') ?? (colorSeed);
     }
+
+    setThemeColor(Color(colorSeed));
+    notifyListeners();
+  }
+
+  void toggleMode() {
+    _darkMode = !_darkMode;
+    if (prefs != null) {
+      prefs!.setBool('darkMode', _darkMode);
+    }
+
     notifyListeners();
   }
 
@@ -38,13 +42,16 @@ class SettingsProvider extends ChangeNotifier {
         useMaterial3: true,
       );
     } else {
-    theme.lightTheme = ThemeData(
+      theme.lightTheme = ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: newColor,
           brightness: Brightness.light),
         useMaterial3: true,
       );
     }
+
+    colorSeed = newColor.value;
+    prefs?.setInt(('colorSeed'), colorSeed.toInt());
     notifyListeners();
   }
 }
