@@ -36,6 +36,10 @@ class LocationProvider extends ChangeNotifier {
     activeLocation = loc;
     if (activeLocation != null){
       activeLocationImg = await getImageByQuery("${activeLocation!.city} ${activeLocation!.state}");
+      // if this entry doesnt have the url field, it is empty or null, set it to this
+      if () {
+        
+      }
     }
     
     notifyListeners();
