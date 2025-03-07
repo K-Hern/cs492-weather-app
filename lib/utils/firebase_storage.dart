@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:weatherapp/utils/get_image.dart';
 
 Future<bool> checkIfEntryExists(
     String collectionName, String fieldName, dynamic value) async {
@@ -15,34 +16,6 @@ Future<int?> documentCount(String collectionName) async {
   AggregateQuerySnapshot query =
       await FirebaseFirestore.instance.collection(collectionName).count().get();
   return query.count;
-}
-
-Future<void> setEntryField(String entry, String value, String field) async {
-
-  if (await checkIfEntryExists("locations", entry, value)) {
-    var querySnapshot = await FirebaseFirestore.instance
-      .collection("locations")
-      .where(entry, isEqualTo: value)
-      .limit(1)
-      .get();
-
-      var documentSnapshot = querySnapshot.docs.first;
-    // check if the field exists
-    if (documentSnapshot.data().containsKey(field)) {
-      String fieldVal = documentSnapshot.get(field);
-
-      // The field exists but is either null or empty
-      if (fieldVal == null || (fieldVal.trim().isEmpty)) {
-        await FirebaseFirestore.instance
-          .collection("locations")
-          .doc('your_document_id')
-          .update({'your_key': 'your_value'});
-        }
-    }
-    // field does not exist, set it
-
-  }
-  // field doesn't exist - just create a new one?
 }
 
 Future<Map<String, dynamic>?> getEntryByIndex(

@@ -35,11 +35,12 @@ class LocationProvider extends ChangeNotifier {
   void setLocation(location.Location loc) async {
     activeLocation = loc;
     if (activeLocation != null){
-      activeLocationImg = await getImageByQuery("${activeLocation!.city} ${activeLocation!.state}");
-      // if this entry doesnt have the url field, it is empty or null, set it to this
-      if () {
-        
+
+      // if this entry doesn't have the url field, it is empty or null, set it to this
+      if ((loc.url == null) || (loc.url == "null") || (loc.url!.isEmpty)) {
+        loc.url = await getImageByQuery("${activeLocation!.city} ${activeLocation!.state}");
       }
+      activeLocationImg = loc.url;
     }
     
     notifyListeners();
@@ -76,7 +77,6 @@ class LocationProvider extends ChangeNotifier {
     if (! await fs.checkIfEntryExists("locations", "zip", newLocation.zip)){
       FirebaseFirestore.instance.collection("locations").add(newLocation.toJson());
     }
-    
   }
 
   Future<void> deleteLocation(location.Location locToDelete) async {
