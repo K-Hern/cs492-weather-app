@@ -1,14 +1,12 @@
 import 'package:test/test.dart';
 import 'package:weatherapp/models/location.dart';
 
+// Tests to implement:
+  // Creating a location object using the normal constructor
+  // Creating a Location object from a json (toJson() function)
+  // Getting json data from a Location object (fromJson() function)
+  // Comparing two locations for equality (use an equal example which returns True, and an unequal example which returns false)
 
-// Creating a location object using the normal constructor
-
-// Creating a Location object from a json (toJson() function)
-
-// Getting json data from a Location object (fromJson() function)
-
-// Comparing two locations for equality (use an equal example which returns True, and an unequal example which returns false)
 void main(){
   group("Location Model:", () {
     const Map<String, dynamic> attr = {
